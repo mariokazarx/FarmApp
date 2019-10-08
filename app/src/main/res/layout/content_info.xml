@@ -54,8 +54,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="60dp"
-        android:layout_height="77dp"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
         android:layout_marginTop="16dp"
         android:text="60%"
         android:textColor="#000000"
-        android:textSize="48dp"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -112,8 +112,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="70dp"
-        android:layout_height="72dp"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
@@ -123,9 +123,9 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="46dp"
+        android:layout_width="30dp"
         android:layout_height="45dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.08"
@@ -141,9 +141,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:text="40°"
+        android:text="60°"
         android:textColor="#000000"
-        android:textSize="48dp"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
