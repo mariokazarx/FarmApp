@@ -18,29 +18,29 @@
 
         <Button
             android:id="@+id/btn_manual"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="100dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/ic_assignment_24px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.203" />
 
         <Button
             android:id="@+id/btn_info"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="100dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/ic_eco_24px"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/textView6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_manual"
-            app:layout_constraintVertical_bias="0.42000002" />
+            app:layout_constraintVertical_bias="0.78" />
 
         <TextView
             android:id="@+id/textView5"
@@ -49,7 +49,7 @@
             android:layout_marginBottom="32dp"
             android:text="Manual TI"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="#FFFFFF"
+            android:textColor="#ffffff"
             android:textSize="24sp"
             app:fontFamily="@font/bubblegum_sans"
             app:layout_constraintBottom_toTopOf="@+id/btn_info"
