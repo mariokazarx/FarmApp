@@ -57,33 +57,11 @@ public class TestActivity extends AppCompatActivity {
                 if (msg.what == handlerState) {          //if message is what we want
                     String readMessage = (String) msg.obj;                                                                // msg.arg1 = bytes from connect thread
                     recDataString.append(readMessage);              //keep appending to string until ~
-                    int endOfLineIndex = recDataString.indexOf("~");                    // determine the end-of-line
-                    if (endOfLineIndex > 0) {                                           // make sure there data before ~
-                        String dataInPrint = recDataString.substring(0, endOfLineIndex);    // extract string
-                        txtString.setText("Datos recibidos = " + dataInPrint);
-                        int dataLength = dataInPrint.length();       //get length of data received
-                        txtStringLength.setText("Tamaño del String = " + String.valueOf(dataLength));
+                    String[] parts = recDataString.toString().split("x");
+                    sensorView0.setText("humedad :"+parts[0]);
+                    sensorView1.setText("temperatura :"+parts[1]);
+                    sensorView2.setText("volumen: "+parts[2]);
 
-                        if (recDataString.charAt(0) == '#')        //if it starts with # we know it is what we are looking for
-                        {
-                            String sensor0 = recDataString.substring(1, 5);             //get sensor value from string between indices 1-5
-                            String sensor1 = recDataString.substring(6, 10);            //same again...
-                            String sensor2 = recDataString.substring(11, 15);
-                            String sensor3 = recDataString.substring(16, 20);
-
-                            if(sensor0.equals("1.00"))
-                                sensorView0.setText("Encendido"); //update the textviews with sensor values
-                            else
-                                sensorView0.setText("Apagado"); //update the textviews with sensor values
-                            sensorView1.setText(sensor1);
-                            sensorView2.setText(sensor2);
-                            sensorView3.setText(sensor3);
-                            //sensorView3.setText(" Sensor 3 Voltage = " + sensor3 + "V");
-                        }
-                        recDataString.delete(0, recDataString.length());      //clear all string data
-                        // strIncom =" ";
-                        dataInPrint = " ";
-                    }
                 }
             }
         };
