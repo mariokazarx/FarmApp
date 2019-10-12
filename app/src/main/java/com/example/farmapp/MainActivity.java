@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent myIntent = new Intent(MainActivity.this, InfoActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, DeviceList.class);
                 MainActivity.this.startActivity(myIntent);
             }
         });
