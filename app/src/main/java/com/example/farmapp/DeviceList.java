@@ -1,23 +1,33 @@
 package com.example.farmapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.farmapp.adapters.DeviceAdapter;
+import com.example.farmapp.utils.CommonUtils;
+import com.example.farmapp.vo.Device;
+import com.example.farmapp.utils.DividerItemDecoration;
+
+import java.util.ArrayList;
 import java.util.Set;
 
-public class DeviceList extends AppCompatActivity {
+public class DeviceList extends AppCompatActivity implements DeviceAdapter.Callback{
 
     // Debugging for LOGCAT
     private static final String TAG = "DeviceListActivity";
@@ -33,49 +43,67 @@ public class DeviceList extends AppCompatActivity {
 
     // Member fields
     private BluetoothAdapter mBtAdapter;
-    private ArrayAdapter mPairedDevicesArrayAdapter;
+//    private ArrayAdapter mPairedDevicesArrayAdapter;
+
+    RecyclerView mRecyclerView;
+    DeviceAdapter mDeviceAdapter;
+
+    LinearLayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
+        mRecyclerView = findViewById(R.id.mRecyclerView);
+        setUp();
+    }
+
+    private void setUp() {
+        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_drawable);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(dividerDrawable));
+        mDeviceAdapter = new DeviceAdapter(new ArrayList<Device>());
+        mDeviceAdapter.setCallback(this);
+    }
+
+    private void loadDevice(){
+
+        checkBTState();
+        CommonUtils.showLoading(DeviceList.this);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Device> mdevices = new ArrayList<>();
+                CommonUtils.hideLoading();
+                // Get the local Bluetooth adapter
+                mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+
+                // Get a set of currently paired devices and append to 'pairedDevices'
+                Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
+
+                // Add previosuly paired devices to the array
+                if (pairedDevices.size() > 0) {
+                    findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);//make title viewable
+                    for (BluetoothDevice device : pairedDevices) {
+                        mdevices.add(new Device(device.getName(),device.getAddress()));
+                    }
+                }
+                mDeviceAdapter.addItems(mdevices);
+                mRecyclerView.setAdapter(mDeviceAdapter);
+            }
+        }, 2000);
+
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        //***************
-        checkBTState();
-
-        textView1 = (TextView) findViewById(R.id.connecting);
-        textView1.setTextSize(40);
-        textView1.setText(" ");
-
-        // Initialize array adapter for paired devices
-        mPairedDevicesArrayAdapter = new ArrayAdapter(this, R.layout.device_name);
-
-        // Find and set up the ListView for paired devices
-        ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
-        pairedListView.setAdapter(mPairedDevicesArrayAdapter);
-        pairedListView.setOnItemClickListener(mDeviceClickListener);
-
-        // Get the local Bluetooth adapter
-        mBtAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        // Get a set of currently paired devices and append to 'pairedDevices'
-        Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
-
-        // Add previosuly paired devices to the array
-        if (pairedDevices.size() > 0) {
-            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);//make title viewable
-            for (BluetoothDevice device : pairedDevices) {
-                mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-            }
-        } else {
-            String noDevices = "Ningun dispositivo pudo ser emparejado";
-            mPairedDevicesArrayAdapter.add(noDevices);
-        }
+        loadDevice();
     }
 
     // Set up on-click listener for the list (nicked this - unsure)
@@ -109,5 +137,10 @@ public class DeviceList extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    public void onEmptyViewRetryClick() {
+        loadDevice();
     }
 }
