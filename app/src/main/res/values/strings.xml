@@ -48,5 +48,6 @@
         <item>Table Tennis Federation Revokes Soumyajit Ghoshs Suspension, 9 Months After Rape Allegations!</item>
         <item>2019 Australian Open odds, predictions for mens finals!</item>
     </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
 
 </resources>

@@ -73,30 +73,22 @@ public class DeviceList extends AppCompatActivity implements DeviceAdapter.Callb
     private void loadDevice(){
 
         checkBTState();
-        CommonUtils.showLoading(DeviceList.this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<Device> mdevices = new ArrayList<>();
-                CommonUtils.hideLoading();
-                // Get the local Bluetooth adapter
-                mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+        ArrayList<Device> mdevices = new ArrayList<>();
+        // Get the local Bluetooth adapter
+        mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 
-                // Get a set of currently paired devices and append to 'pairedDevices'
-                Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
+        // Get a set of currently paired devices and append to 'pairedDevices'
+        Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
 
-                // Add previosuly paired devices to the array
-                if (pairedDevices.size() > 0) {
-                    findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);//make title viewable
-                    for (BluetoothDevice device : pairedDevices) {
-                        mdevices.add(new Device(device.getName(),device.getAddress()));
-                    }
-                }
-                mDeviceAdapter.addItems(mdevices);
-                mRecyclerView.setAdapter(mDeviceAdapter);
+        // Add previosuly paired devices to the array
+        if (pairedDevices.size() > 0) {
+            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);//make title viewable
+            for (BluetoothDevice device : pairedDevices) {
+                mdevices.add(new Device(device.getName(),device.getAddress()));
             }
-        }, 2000);
-
+        }
+        mDeviceAdapter.addItems(mdevices);
+        mRecyclerView.setAdapter(mDeviceAdapter);
     }
 
     @Override

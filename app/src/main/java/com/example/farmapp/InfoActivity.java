@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class InfoActivity extends AppCompatActivity {
 
-    TextView txtHunedad,txtTemperatura;
+    TextView txtHunedad,txtTemperatura, txtRecomendaciones;
     Handler bluetoothIn;
 
     final int handlerState = 0;             //used to identify handler message
@@ -48,7 +48,7 @@ public class InfoActivity extends AppCompatActivity {
 
         txtHunedad = (TextView) findViewById(R.id.txt_humedity);
         txtTemperatura = (TextView) findViewById(R.id.txt_temp);
-
+        txtRecomendaciones = (TextView) findViewById(R.id.txtRecomendaciones);
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -59,7 +59,15 @@ public class InfoActivity extends AppCompatActivity {
                     txtHunedad.setText(parts[0]+ "%");
                     txtTemperatura.setText(parts[1]+"°");
                     //sensorView2.setText("volumen: "+parts[2]);BATERY
-
+                    if(Integer.valueOf(txtRecomendaciones.toString())<75){
+                        txtRecomendaciones.setText("La humedad del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
+                    }
+                    else if(Integer.valueOf(txtRecomendaciones.toString())>85) {
+                        txtRecomendaciones.setText("La humedad del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
+                    }
+                    else {
+                        txtRecomendaciones.setText("La humedad del cultivo es la recomendada, mantener este valor");
+                    }
                 }
             }
         };
