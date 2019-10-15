@@ -65,10 +65,10 @@ public class InfoActivity extends AppCompatActivity {
 
                     //recomendaciones temperatura
 
-                    if(Integer.valueOf(txtTemperatura.toString())<75){
+                    if(Integer.valueOf(txtTemperatura.toString())<5){
                         txtRecomendsTemp.setText("La temperatura del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
                     }
-                    else if(Integer.valueOf(txtTemperatura.toString())>85) {
+                    else if(Integer.valueOf(txtTemperatura.toString())>20) {
                         txtRecomendsTemp.setText("La temperatura del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
                     }
                     else {
