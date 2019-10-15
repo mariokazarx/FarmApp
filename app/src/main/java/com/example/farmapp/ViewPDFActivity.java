@@ -27,7 +27,7 @@ public class ViewPDFActivity extends AppCompatActivity {
     FloatingActionButton prePageButton;
     FloatingActionButton nextPageButton;
 
-    private static final String FILENAME = "content2.pdf";
+    private static final String FILENAME = "content1.pdf";
 
     private int pageIndex;
     private PdfRenderer pdfRenderer;
