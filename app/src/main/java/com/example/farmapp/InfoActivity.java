@@ -50,31 +50,33 @@ public class InfoActivity extends AppCompatActivity {
                     String readMessage = (String) msg.obj;                                                                // msg.arg1 = bytes from connect thread
                     recDataString.append(readMessage);              //keep appending to string until ~
                     String[] parts = recDataString.toString().split("x");
-                    txtHunedad.setText(parts[0]+ "%");
-                    txtTemperatura.setText(parts[1]+"°");
-                    txtBatery.setText(parts[2]);//BATERY
-                    if(Integer.valueOf(txtHunedad.toString())<75){
-                        txtRecomendaciones.setText("La humedad del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
-                    }
-                    else if(Integer.valueOf(txtHunedad.toString())>85) {
-                        txtRecomendaciones.setText("La humedad del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
-                    }
-                    else {
-                        txtRecomendaciones.setText("La humedad del cultivo es la recomendada, mantener este valor");
-                    }
+                    if(parts.length>=3) {
+                        txtHunedad.setText(parts[0] + "%");
+                        txtTemperatura.setText(parts[1] + "°");
+                        txtBatery.setText(parts[2]);//BATERY
+                        if (!parts[0].trim().equals("")) {
+                            if (Integer.valueOf(parts[0]) < 75) {
+                                txtRecomendaciones.setText("La humedad del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
+                            } else if (Integer.valueOf(parts[0]) > 85) {
+                                txtRecomendaciones.setText("La humedad del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
+                            } else {
+                                txtRecomendaciones.setText("La humedad del cultivo es la recomendada, mantener este valor");
+                            }
+                        }
 
-                    //recomendaciones temperatura
-
-                    if(Integer.valueOf(txtTemperatura.toString())<5){
-                        txtRecomendsTemp.setText("La temperatura del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
-                    }
-                    else if(Integer.valueOf(txtTemperatura.toString())>20) {
-                        txtRecomendsTemp.setText("La temperatura del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
-                    }
-                    else {
-                        txtRecomendsTemp.setText("La temperatura del cultivo es la recomendada, mantener este valor");
+                        //recomendaciones temperatura
+                        if (!parts[0].trim().equals("")) {
+                            if (Integer.valueOf(parts[1]) < 5) {
+                                txtRecomendsTemp.setText("La temperatura del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
+                            } else if (Integer.valueOf(parts[1]) > 20) {
+                                txtRecomendsTemp.setText("La temperatura del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
+                            } else {
+                                txtRecomendsTemp.setText("La temperatura del cultivo es la recomendada, mantener este valor");
+                            }
+                        }
                     }
                 }
+                recDataString.delete(0, recDataString.length());      //clear all string data
             }
         };
 
@@ -107,6 +109,7 @@ public class InfoActivity extends AppCompatActivity {
         try {
             btSocket = createBluetoothSocket(device);
         } catch (IOException e) {
+            e.printStackTrace();
             Toast.makeText(getBaseContext(), "La creacción del Socket fallo", Toast.LENGTH_LONG).show();
         }
         // Establish the Bluetooth socket connection.
@@ -116,9 +119,11 @@ public class InfoActivity extends AppCompatActivity {
         } catch (IOException e) {
             try
             {
+                e.printStackTrace();
                 btSocket.close();
             } catch (IOException e2)
             {
+                e2.printStackTrace();
                 //insert code to deal with this
             }
         }
@@ -185,12 +190,15 @@ public class InfoActivity extends AppCompatActivity {
             // Keep looping to listen for received messages
             while (true) {
                 try {
+                    sleep(1000);
                     bytes = mmInStream.read(buffer);         //read bytes from input buffer
                     String readMessage = new String(buffer, 0, bytes);
                     // Send the obtained bytes to the UI Activity via handler
                     bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
                 } catch (IOException e) {
                     break;
+                }catch(Exception ex){
+                    ex.printStackTrace();
                 }
             }
         }
