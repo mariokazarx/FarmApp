@@ -178,7 +178,7 @@
 
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txtRecomendsTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="136dp"
@@ -204,7 +204,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/txt_temp1"
+            android:id="@+id/txtBatery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

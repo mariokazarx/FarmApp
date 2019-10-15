@@ -5,18 +5,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.Handler;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,7 +16,7 @@ import java.util.UUID;
 
 public class InfoActivity extends AppCompatActivity {
 
-    TextView txtHunedad,txtTemperatura, txtRecomendaciones;
+    TextView txtHunedad,txtTemperatura, txtRecomendaciones,txtBatery,txtRecomendsTemp;
     Handler bluetoothIn;
 
     final int handlerState = 0;             //used to identify handler message
@@ -49,6 +41,8 @@ public class InfoActivity extends AppCompatActivity {
         txtHunedad = (TextView) findViewById(R.id.txt_humedity);
         txtTemperatura = (TextView) findViewById(R.id.txt_temp);
         txtRecomendaciones = (TextView) findViewById(R.id.txtRecomendaciones);
+        txtBatery = findViewById(R.id.txtBatery);
+        txtRecomendsTemp = findViewById(R.id.txtRecomendsTemp);
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -58,15 +52,27 @@ public class InfoActivity extends AppCompatActivity {
                     String[] parts = recDataString.toString().split("x");
                     txtHunedad.setText(parts[0]+ "%");
                     txtTemperatura.setText(parts[1]+"°");
-                    //sensorView2.setText("volumen: "+parts[2]);BATERY
-                    if(Integer.valueOf(txtRecomendaciones.toString())<75){
+                    txtBatery.setText(parts[2]);//BATERY
+                    if(Integer.valueOf(txtHunedad.toString())<75){
                         txtRecomendaciones.setText("La humedad del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
                     }
-                    else if(Integer.valueOf(txtRecomendaciones.toString())>85) {
+                    else if(Integer.valueOf(txtHunedad.toString())>85) {
                         txtRecomendaciones.setText("La humedad del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
                     }
                     else {
                         txtRecomendaciones.setText("La humedad del cultivo es la recomendada, mantener este valor");
+                    }
+
+                    //recomendaciones temperatura
+
+                    if(Integer.valueOf(txtTemperatura.toString())<75){
+                        txtRecomendsTemp.setText("La temperatura del cultivo se encuentra bajo el porcentaje ideal, por ello se recomienda encender el sistema de riego ");
+                    }
+                    else if(Integer.valueOf(txtTemperatura.toString())>85) {
+                        txtRecomendsTemp.setText("La temperatura del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
+                    }
+                    else {
+                        txtRecomendsTemp.setText("La temperatura del cultivo es la recomendada, mantener este valor");
                     }
                 }
             }
