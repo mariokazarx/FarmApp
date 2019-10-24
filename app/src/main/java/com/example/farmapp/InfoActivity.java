@@ -55,9 +55,9 @@ public class InfoActivity extends AppCompatActivity {
                         txtTemperatura.setText(parts[1] + "°");
                         txtBatery.setText(parts[2] + "%");//BATERY
                         if (!parts[0].trim().equals("")) {
-                            if (Integer.valueOf(parts[0]) < 75) {
+                            if (Double.valueOf(parts[0].trim()) < 75) {
                                 txtRecomendaciones.setText("La humedad del cultivo es muy baja al porcentaje ideal, por ello se recomienda activar el sistema de riego ");
-                            } else if (Integer.valueOf(parts[0]) > 85) {
+                            } else if (Double.valueOf(parts[0].trim()) > 85) {
                                 txtRecomendaciones.setText("La humedad del cultivo es muy alta al porcentaje ideal, por ello se recomienda apagar el sistema de riego ");
                             } else {
                                 txtRecomendaciones.setText("La humedad del cultivo es la recomendada, mantener este valor");
@@ -66,9 +66,9 @@ public class InfoActivity extends AppCompatActivity {
 
                         //recomendaciones temperatura
                         if (!parts[0].trim().equals("")) {
-                            if (Integer.valueOf(parts[1]) < 5) {
+                            if (Double.valueOf(parts[1].trim()) < 5) {
                                 txtRecomendsTemp.setText("La temperatura es muy baja, se recomienda realizar plan de contiengencia para proteger el cultivo ");
-                            } else if (Integer.valueOf(parts[1]) > 18) {
+                            } else if (Double.valueOf(parts[1].trim()) > 18) {
                                 txtRecomendsTemp.setText("La temperatura del cultivo es muy alta, No es optimo activar el riego, puede afectar el cultivo ");
                             } else {
                                 txtRecomendsTemp.setText("El clima se encuentra en condiciones optimas, si la humedad <75% puede activar el riego");
